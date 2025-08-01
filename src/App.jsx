@@ -1,11 +1,12 @@
 
 import './App.css'
+import Root from './components/Root'
 
 function App() {
 
   return (
     <div>
-      <h1 className='bg-amber-600'>Hello World</h1>
+      <Root></Root>
     </div>
   )
 }
