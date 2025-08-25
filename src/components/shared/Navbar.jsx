@@ -77,9 +77,11 @@ const Navbar = () => {
             </Link>{" "}
           </li>
         </ul>
-        <button className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
+        <Link to={'/login'}>
+          <button className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
           Login
         </button>
+        </Link>
         {/* mobile menu collapse */}
         <div
           className={`md:hidden w-full absolute bg-green-900 top-full left-0 ${
@@ -116,9 +118,11 @@ const Navbar = () => {
               </Link>{" "}
             </li>
             <li>
-              <button className="bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
+              <Link to={'/login'}>
+                <button className="bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
                 Login
               </button>
+              </Link>
             </li>
           </ul>
         </div>
