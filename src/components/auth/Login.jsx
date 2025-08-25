@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
-      <div className="text-white bg-white max-w-sm p-3">
+      <div className="text-white bg-white max-w-sm p-3 rounded">
         <h2 className="text-green-800 font-bold text-2xl text-center mb-4">
           Login
         </h2>
@@ -14,14 +15,14 @@ const Login = () => {
             name="email"
             id=""
             placeholder="Enter Email"
-            className="w-full border p-3 rounded-2xl"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
           <input
             type="password"
             name="password"
             id=""
             placeholder="Enter password"
-            className="w-full border p-3 rounded-2xl"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
           <div className="flex justify-between">
             <div>
@@ -47,14 +48,14 @@ const Login = () => {
           <hr className="border-gray-400 w-1/4" />
         </div>
         <div className="mt-2">
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Facebook
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center ">
+            Login with Facebook <FaFacebook />
           </button>
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Google
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+            Login with Google <FaGoogle />
           </button>
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Github
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+            Login with Github <FaGithub />
           </button>
         </div>
         <div className="text-green-600 flex gap-2 justify-center">

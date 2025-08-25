@@ -1,26 +1,41 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Register = () => {
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
-      <div className="text-white bg-white max-w-sm p-3">
+      <div className="text-white bg-white max-w-lg p-3 rounded">
         <h2 className="text-green-800 font-bold text-2xl text-center mb-4">
-          Login
+          Register
         </h2>
         <form action="" className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            id=""
+            placeholder="Enter Name"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+          />
           <input
             type="email"
             name="email"
             id=""
             placeholder="Enter Email"
-            className="w-full border p-3 rounded-2xl"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
           <input
             type="password"
             name="password"
             id=""
             placeholder="Enter password"
-            className="w-full border p-3 rounded-2xl"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+          />
+          <input
+            type="password"
+            name="confirm_password"
+            id=""
+            placeholder="Confirm password"
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
           <div className="flex justify-between">
             <div>
@@ -29,15 +44,27 @@ const Register = () => {
                 Show Password
               </label>
             </div>
-            <Link className="text-cyan-400 hover:text-cyan-500 hover:underline">
-              Forgot Password?
-            </Link>
+            <div>
+              <input
+                type="checkbox"
+                name="termsAndConditions"
+                id="termsAndConditions"
+              />
+              <label htmlFor="termsAndConditions">
+                {" "}
+                <span className="text-green-800">I agree to the{" "}</span>
+                <Link to={"/termsandconditions"} className="text-cyan-400">
+                  Terms and Conditions
+                </Link>
+              </label>
+            </div>
           </div>
+
           <button
             type="submit"
             className="bg-green-600 w-full p-3 rounded-2xl flex justify-center items-center cursor-pointer hover:bg-green-800 mb-3"
           >
-            Login
+            Register
           </button>
         </form>
         <div className="flex justify-center items-center gap-3">
@@ -46,28 +73,28 @@ const Register = () => {
           <hr className="border-gray-400 w-1/4" />
         </div>
         <div className="mt-2">
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Facebook
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center ">
+            Register with Facebook <FaFacebook/>
           </button>
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Google
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+            Register with Google <FaGoogle/>
           </button>
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer">
-            Login with Github
+          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+            Register with Github <FaGithub/>
           </button>
         </div>
         <div className="text-green-600 flex gap-2 justify-center">
-          <p>Don't Have an Account?</p>
+          <p>Already Have an Account?</p>
           <Link
-            to={"/register"}
+            to={"/login"}
             className="text-green-700 font-bold hover:text-green-600"
           >
-            Register
+            Login
           </Link>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
