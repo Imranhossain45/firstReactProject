@@ -1,3 +1,4 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import {
   FaFacebook,
@@ -7,16 +8,33 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase/firebase.config";
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+
+  const handleRegisterForm = (e)=>{
+    e.preventDefault();
+    let name = e.target.name.value;
+    let email = e.target.email.value;
+    let password = e.target.password.value;
+    let confirmPassword = e.target.confirm_password.value;
+    createUserWithEmailAndPassword(auth,email,password)
+    .then(result=>{
+      const user = result.user;
+      console.log(user);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
       <div className="text-white bg-white max-w-lg p-3 rounded">
         <h2 className="text-green-800 font-bold text-2xl text-center mb-4">
           Register
         </h2>
-        <form action="" className="space-y-4">
+        <form onSubmit={handleRegisterForm} className="space-y-4">
           <input
             type="text"
             name="name"
