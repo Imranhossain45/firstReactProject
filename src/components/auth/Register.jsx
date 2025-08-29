@@ -1,7 +1,15 @@
-import React from "react";
-import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaFacebook,
+  FaGithub,
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 const Register = () => {
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
       <div className="text-white bg-white max-w-lg p-3 rounded">
@@ -14,6 +22,7 @@ const Register = () => {
             name="name"
             id=""
             placeholder="Enter Name"
+            required
             className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
           <input
@@ -21,29 +30,39 @@ const Register = () => {
             name="email"
             id=""
             placeholder="Enter Email"
+            required
             className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
-          <input
-            type="password"
-            name="password"
-            id=""
-            placeholder="Enter password"
-            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
-          />
-          <input
-            type="password"
-            name="confirm_password"
-            id=""
-            placeholder="Confirm password"
-            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
-          />
+          <div className="relative flex items-center">
+            <input
+              type={showPass ? "text" : "password"}
+              name="password"
+              id=""
+              placeholder="Enter password"
+              required
+              className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+            />
+            {
+              showPass ? <FaEyeSlash onClick={() => setShowPass(!showPass)}  className="text-black absolute right-3 cursor-pointer"  /> : <FaEye onClick={() => setShowPass(!showPass)} className="text-black absolute right-3 cursor-pointer" />
+            }
+            
+          </div>
+          <div className="relative flex items-center">
+            <input
+              type={showConfirmPass ? "text" : "password"}
+              name="confirm_password"
+              id=""
+              placeholder="Confirm password"
+              required
+              className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+            />
+            {
+              showConfirmPass ? <FaEyeSlash onClick={() => setShowConfirmPass(!showConfirmPass)}  className="text-black absolute right-3 cursor-pointer"  /> : <FaEye onClick={() => setShowConfirmPass(!showConfirmPass)} className="text-black absolute right-3 cursor-pointer" />
+            }
+            
+          </div>
           <div className="flex justify-between">
-            <div>
-              <input type="checkbox" name="" id="forChecked" />
-              <label htmlFor="forChecked" className="mx-2 text-green-600">
-                Show Password
-              </label>
-            </div>
+           
             <div>
               <input
                 type="checkbox"
@@ -52,7 +71,7 @@ const Register = () => {
               />
               <label htmlFor="termsAndConditions">
                 {" "}
-                <span className="text-green-800">I agree to the{" "}</span>
+                <span className="text-green-800">I agree to the </span>
                 <Link to={"/termsandconditions"} className="text-cyan-400">
                   Terms and Conditions
                 </Link>
@@ -74,13 +93,13 @@ const Register = () => {
         </div>
         <div className="mt-2">
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center ">
-            Register with Facebook <FaFacebook/>
+            Register with Facebook <FaFacebook />
           </button>
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
-            Register with Google <FaGoogle/>
+            Register with Google <FaGoogle />
           </button>
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
-            Register with Github <FaGithub/>
+            Register with Github <FaGithub />
           </button>
         </div>
         <div className="text-green-600 flex gap-2 justify-center">
