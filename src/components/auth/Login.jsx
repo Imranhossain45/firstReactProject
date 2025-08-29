@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaGithub,
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 
 const Login = () => {
+  const [showPass, setShowPass] = useState(false);
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
       <div className="text-white bg-white max-w-sm p-3 rounded">
@@ -17,20 +24,27 @@ const Login = () => {
             placeholder="Enter Email"
             className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
-          <input
-            type="password"
-            name="password"
-            id=""
-            placeholder="Enter password"
-            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
-          />
+          <div className="flex items-center relative">
+            <input
+              type={showPass ? 'text' : 'password'}
+              name="password"
+              id=""
+              placeholder="Enter password"
+              className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+            />
+            {showPass ? (
+              <FaEyeSlash
+                onClick={() => setShowPass(!showPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            ) : (
+              <FaEye
+                onClick={() => setShowPass(!showPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            )}
+          </div>
           <div className="flex justify-between">
-            <div>
-              <input type="checkbox" name="" id="forChecked" />
-              <label htmlFor="forChecked" className="mx-2 text-green-600">
-                Show Password
-              </label>
-            </div>
             <Link className="text-cyan-400 hover:text-cyan-500 hover:underline">
               Forgot Password?
             </Link>
