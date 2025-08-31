@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('/');
   const location = useLocation();
+  
   useEffect(()=>{
     setActiveLink(location.pathname || '/');
   },[location.pathname]);

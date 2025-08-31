@@ -1,5 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   FaFacebook,
   FaGithub,
@@ -12,22 +11,23 @@ import { auth } from "../../firebase/firebase.config";
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const { createUserWithPassword } = useContext();
 
-  const handleRegisterForm = (e)=>{
+  const handleRegisterForm = (e) => {
     e.preventDefault();
     let name = e.target.name.value;
     let email = e.target.email.value;
     let password = e.target.password.value;
     let confirmPassword = e.target.confirm_password.value;
-    createUserWithEmailAndPassword(auth,email,password)
-    .then(result=>{
-      const user = result.user;
-      console.log(user);
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
+    createUserWithPassword(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
       <div className="text-white bg-white max-w-lg p-3 rounded">
@@ -60,10 +60,17 @@ const Register = () => {
               required
               className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
             />
-            {
-              showPass ? <FaEyeSlash onClick={() => setShowPass(!showPass)}  className="text-black absolute right-3 cursor-pointer"  /> : <FaEye onClick={() => setShowPass(!showPass)} className="text-black absolute right-3 cursor-pointer" />
-            }
-            
+            {showPass ? (
+              <FaEyeSlash
+                onClick={() => setShowPass(!showPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            ) : (
+              <FaEye
+                onClick={() => setShowPass(!showPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            )}
           </div>
           <div className="relative flex items-center">
             <input
@@ -74,13 +81,19 @@ const Register = () => {
               required
               className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
             />
-            {
-              showConfirmPass ? <FaEyeSlash onClick={() => setShowConfirmPass(!showConfirmPass)}  className="text-black absolute right-3 cursor-pointer"  /> : <FaEye onClick={() => setShowConfirmPass(!showConfirmPass)} className="text-black absolute right-3 cursor-pointer" />
-            }
-            
+            {showConfirmPass ? (
+              <FaEyeSlash
+                onClick={() => setShowConfirmPass(!showConfirmPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            ) : (
+              <FaEye
+                onClick={() => setShowConfirmPass(!showConfirmPass)}
+                className="text-black absolute right-3 cursor-pointer"
+              />
+            )}
           </div>
           <div className="flex justify-between">
-           
             <div>
               <input
                 type="checkbox"
