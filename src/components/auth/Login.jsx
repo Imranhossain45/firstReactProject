@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebook,
@@ -7,16 +7,31 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
+  const { signInWithEmailPass } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
+  const handleLoginForm = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    signInWithEmailPass(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="flex items-center justify-center bg-green-950 h-[80vh]">
       <div className="text-white bg-white max-w-sm p-3 rounded">
         <h2 className="text-green-800 font-bold text-2xl text-center mb-4">
           Login
         </h2>
-        <form action="" className="space-y-4">
+        <form onSubmit={handleLoginForm} className="space-y-4">
           <input
             type="email"
             name="email"
@@ -26,7 +41,7 @@ const Login = () => {
           />
           <div className="flex items-center relative">
             <input
-              type={showPass ? 'text' : 'password'}
+              type={showPass ? "text" : "password"}
               name="password"
               id=""
               placeholder="Enter password"

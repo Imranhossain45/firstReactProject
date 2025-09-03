@@ -7,11 +7,11 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase/firebase.config";
+import { AuthContext } from "../../providers/AuthProvider";
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
-  const { createUserWithPassword } = useContext();
+  const { createUserWithPassword } = useContext(AuthContext);
 
   const handleRegisterForm = (e) => {
     e.preventDefault();
