@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
@@ -16,18 +16,21 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("Logged in user");
-      setUser(user);
-    } else {
-      console.log("User not found");
-      setUser(null);
-    }
-  });
-  const handleSignOut = ()=>{
-    signOut(auth)
-  }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logged in user");
+        setUser(user);
+      } else {
+        console.log("User not found");
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+  const handleSignOut = () => {
+    signOut(auth);
+  };
   const authInformation = {
     user,
     handleSignOut,

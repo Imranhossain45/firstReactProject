@@ -11,6 +11,8 @@ import { AuthContext } from "../../providers/AuthProvider";
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [errorMsg,setErrorMsg] = useState('');
+  const [successMsg,setSuccessMsg] = useState('');
   const { createUserWithPassword } = useContext(AuthContext);
 
   const handleRegisterForm = (e) => {
@@ -19,10 +21,17 @@ const Register = () => {
     let email = e.target.email.value;
     let password = e.target.password.value;
     let confirmPassword = e.target.confirm_password.value;
+
+    if (password !== confirmPassword) {
+      setErrorMsg('Password not matched');
+      return;
+    }
     createUserWithPassword(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
+        setSuccessMsg('Registration Sucessfull!');
+        setErrorMsg('')
       })
       .catch((err) => {
         console.log(err);
@@ -93,6 +102,12 @@ const Register = () => {
               />
             )}
           </div>
+          {
+            successMsg && <p className="bg-green-400 p-1 rounded text-center">{successMsg}</p>
+          }
+          {
+            errorMsg && <p className="bg-red-300 p-1 rounded text-center">{errorMsg}</p>
+          }
           <div className="flex justify-between">
             <div>
               <input
