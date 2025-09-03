@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('/');
+  const [activeLink, setActiveLink] = useState("/");
   const location = useLocation();
-  
-  useEffect(()=>{
-    setActiveLink(location.pathname || '/');
-  },[location.pathname]);
+  const { user, handleSignOut } = useContext(AuthContext);
+
+  useEffect(() => {
+    setActiveLink(location.pathname || "/");
+  }, [location.pathname]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
   const handleLinkClick = (path) => {
     setActiveLink(path);
+  };
+
+  const handleSignOutUser = () => {
+    handleSignOut();
   };
   return (
     <nav className="bg-green-800 text-white py-4 md:py-6 sticky top-0">
@@ -31,7 +37,9 @@ const Navbar = () => {
           <li>
             <Link
               to={"/"}
-              className={`${activeLink === '/' ? 'text-green-300' : 'hover:text-green-300'}`}
+              className={`${
+                activeLink === "/" ? "text-green-300" : "hover:text-green-300"
+              }`}
               onClick={() => handleLinkClick("/")}
             >
               Home
@@ -41,8 +49,12 @@ const Navbar = () => {
             {" "}
             <Link
               to={"/products"}
-              className={`${activeLink === '/products' ? 'text-green-300' : 'hover:text-green-300'}`}
-              onClick={()=>handleLinkClick('/products')}
+              className={`${
+                activeLink === "/products"
+                  ? "text-green-300"
+                  : "hover:text-green-300"
+              }`}
+              onClick={() => handleLinkClick("/products")}
             >
               Products
             </Link>{" "}
@@ -51,8 +63,12 @@ const Navbar = () => {
             {" "}
             <Link
               to={"/blogs"}
-              className={`${activeLink === '/blogs' ? 'text-green-300' : 'hover:text-green-300'}`}
-              onClick={()=>handleLinkClick('/blogs')}
+              className={`${
+                activeLink === "/blogs"
+                  ? "text-green-300"
+                  : "hover:text-green-300"
+              }`}
+              onClick={() => handleLinkClick("/blogs")}
             >
               Blogs
             </Link>{" "}
@@ -61,8 +77,12 @@ const Navbar = () => {
             {" "}
             <Link
               to={"/about"}
-              className={`${activeLink === '/about' ? 'text-green-300' : 'hover:text-green-300'}`}
-              onClick={()=>handleLinkClick('/about')}
+              className={`${
+                activeLink === "/about"
+                  ? "text-green-300"
+                  : "hover:text-green-300"
+              }`}
+              onClick={() => handleLinkClick("/about")}
             >
               About
             </Link>{" "}
@@ -71,18 +91,33 @@ const Navbar = () => {
             {" "}
             <Link
               to={"/contact"}
-              className={`${activeLink === '/contact' ? 'text-green-300' : 'hover:text-green-300'}`}
-              onClick={()=>handleLinkClick('/contact')}
+              className={`${
+                activeLink === "/contact"
+                  ? "text-green-300"
+                  : "hover:text-green-300"
+              }`}
+              onClick={() => handleLinkClick("/contact")}
             >
               Contact
             </Link>{" "}
           </li>
         </ul>
-        <Link to={'/login'}>
-          <button className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
-          Login
-        </button>
-        </Link>
+        <div className="flex items-center gap-3">
+          {user ? (
+            <div>
+              <span>{user?.email}</span>
+              <button onClick={handleSignOutUser} className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
+                Signout
+              </button>
+            </div>
+          ) : (
+            <Link to={"/login"}>
+              <button className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
+                Login
+              </button>
+            </Link>
+          )}
+        </div>
         {/* mobile menu collapse */}
         <div
           className={`md:hidden w-full absolute bg-green-900 top-full left-0 ${
@@ -119,10 +154,10 @@ const Navbar = () => {
               </Link>{" "}
             </li>
             <li>
-              <Link to={'/login'}>
+              <Link to={"/login"}>
                 <button className="bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
-                Login
-              </button>
+                  Login
+                </button>
               </Link>
             </li>
           </ul>
