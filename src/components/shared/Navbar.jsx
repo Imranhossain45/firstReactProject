@@ -105,7 +105,8 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           {user ? (
             <div>
-              <span>{user?.email}</span>
+              <span>{user?.displayName}</span>
+              <span><img src={user.photoURL} alt="" /></span>
               <button onClick={handleSignOutUser} className="hidden md:block bg-green-600 px-4 py-2 rounded cursor-pointer hover:bg-green-500">
                 Signout
               </button>

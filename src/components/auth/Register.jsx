@@ -9,13 +9,15 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, sendEmailVerification } from "firebase/auth";
 const Register = () => {
+  
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { createUserWithPassword, signInWithGoggle } = useContext(AuthContext);
+  const { createUserWithPassword, signInWithGoggle, updateUserProfile } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
   let provider = new GoogleAuthProvider();
@@ -37,6 +39,7 @@ const Register = () => {
     let email = e.target.email.value;
     let password = e.target.password.value;
     let confirmPassword = e.target.confirm_password.value;
+    let photoURL = e.target.photoURL.value;
     let termsAndConditions = e.target.termsAndConditions.checked;
 
     if (password !== confirmPassword) {
@@ -58,6 +61,21 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        updateUserProfile(name, photoURL)
+          .then(() => {
+            sendEmailVerification(user)
+            .then(() => {
+              console.log("verification email sended");
+              Swal.fire({
+                title: "Verify Your Email!",
+                text: "A Verification Email sent!",
+                icon: "success",
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         setErrorMsg("");
         e.target.reset();
         Swal.fire({
@@ -86,6 +104,14 @@ const Register = () => {
             name="name"
             id=""
             placeholder="Enter Name"
+            required
+            className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+          />
+          <input
+            type="text"
+            name="photoURL"
+            id=""
+            placeholder="Photo URL"
             required
             className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
           />
@@ -178,7 +204,10 @@ const Register = () => {
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center ">
             Register with Facebook <FaFacebook />
           </button>
-          <button onClick={handleGoogleRegister} className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+          <button
+            onClick={handleGoogleRegister}
+            className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center"
+          >
             Register with Google <FaGoogle />
           </button>
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
