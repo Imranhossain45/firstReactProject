@@ -8,13 +8,28 @@ import {
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
+import { GoogleAuthProvider } from "firebase/auth";
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { createUserWithPassword } = useContext(AuthContext);
-  const navigate =  useNavigate();
+  const { createUserWithPassword, signInWithGoggle } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
+  let provider = new GoogleAuthProvider();
+  // sign in with google
+  const handleGoogleRegister = () => {
+    signInWithGoggle(provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleRegisterForm = (e) => {
     e.preventDefault();
@@ -23,30 +38,40 @@ const Register = () => {
     let password = e.target.password.value;
     let confirmPassword = e.target.confirm_password.value;
     let termsAndConditions = e.target.termsAndConditions.checked;
-    console.log(termsAndConditions);
 
     if (password !== confirmPassword) {
       setErrorMsg("Password not matched");
+      return;
+    }
+    if (!passwordRegex.test(confirmPassword)) {
+      setErrorMsg(
+        "Password must be atleast 6charecter, one uppercase,one lowercase,one number and one special charecter"
+      );
       return;
     }
     if (!termsAndConditions) {
       setErrorMsg("You Need to accept Our Terms and Conditions");
       return;
     }
+
     createUserWithPassword(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
-        setSuccessMsg("Registration Sucessfull!");
         setErrorMsg("");
         e.target.reset();
-        setTimeout(()=>{
-          navigate('/login');
-        },1000);
+        Swal.fire({
+          title: "Good job!",
+          text: "Registration Successfull!",
+          icon: "success",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
-        setErrorMsg(err.message)
+        setErrorMsg(err.message);
       });
   };
   return (
@@ -153,7 +178,7 @@ const Register = () => {
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center ">
             Register with Facebook <FaFacebook />
           </button>
-          <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
+          <button onClick={handleGoogleRegister} className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
             Register with Google <FaGoogle />
           </button>
           <button className="bg-green-900 w-full py-2 rounded my-1 hover:bg-green-800 cursor-pointer flex gap-3 items-center justify-center">
