@@ -71,6 +71,7 @@ const Register = () => {
                 text: "A Verification Email sent!",
                 icon: "success",
               });
+              
             });
           })
           .catch((err) => {
