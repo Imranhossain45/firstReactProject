@@ -11,6 +11,8 @@ import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
+  const [operationLoading, setOperationLoading] = useState(false);
   const [user, setUser] = useState(null);
   const createUserWithPassword = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -44,6 +46,7 @@ const AuthProvider = ({ children }) => {
         console.log("User not found");
         setUser(null);
       }
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -61,7 +64,10 @@ const AuthProvider = ({ children }) => {
   };
   return (
     <AuthContext.Provider value={authInformation}>
-      {children}
+      {loading ? (
+        <div className="text-center p-10 text-lg">Loading...</div>) : 
+        (children)
+        }
     </AuthContext.Provider>
   );
 };
