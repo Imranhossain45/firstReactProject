@@ -8,10 +8,12 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const { signInWithEmailPass } = useContext(AuthContext);
+  const { signInWithEmailPass, resetPassword } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
   const handleLoginForm = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -22,6 +24,32 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+  // reset password
+  const handleForegetPass = () => {
+    if (!emailInput) {
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter your email first!",
+        icon: "warning",
+      });
+      return;
+    }
+    resetPassword(emailInput)
+      .then(() => {
+        Swal.fire({
+          title: "Success!",
+          text: "Password Reset Email sent!",
+          icon: "success",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Success!",
+          text: err.message,
+          icon: "success",
+        });
       });
   };
   return (
@@ -37,6 +65,7 @@ const Login = () => {
             id=""
             placeholder="Enter Email"
             className="w-full border-2 border-green-800 p-3 rounded-2xl text-black focus:outline-green-800"
+            onChange={(e) => setEmailInput(e.target.value)}
           />
           <div className="flex items-center relative">
             <input
@@ -59,9 +88,12 @@ const Login = () => {
             )}
           </div>
           <div className="flex justify-between">
-            <Link className="text-cyan-400 hover:text-cyan-500 hover:underline">
+            <p
+              onClick={handleForegetPass}
+              className="text-cyan-400 hover:text-cyan-500 hover:underline cursor-pointer"
+            >
               Forgot Password?
-            </Link>
+            </p>
           </div>
           <button
             type="submit"

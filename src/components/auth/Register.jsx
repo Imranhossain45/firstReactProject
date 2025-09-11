@@ -11,7 +11,6 @@ import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
 import { GoogleAuthProvider, sendEmailVerification } from "firebase/auth";
 const Register = () => {
-  
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -42,6 +41,8 @@ const Register = () => {
     let photoURL = e.target.photoURL.value;
     let termsAndConditions = e.target.termsAndConditions.checked;
 
+    setErrorMsg("");
+    setSuccessMsg("");
     if (password !== confirmPassword) {
       setErrorMsg("Password not matched");
       return;
@@ -61,29 +62,27 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        e.target.reset();
         updateUserProfile(name, photoURL)
           .then(() => {
-            sendEmailVerification(user)
-            .then(() => {
+            sendEmailVerification(user).then(() => {
               console.log("verification email sended");
               Swal.fire({
-                title: "Verify Your Email!",
+                title: "Register Succesful.Verify Your Email!",
                 text: "A Verification Email sent!",
                 icon: "success",
               });
-              
             });
           })
           .catch((err) => {
             console.log(err);
+            Swal.fire({
+              title: "Register Succesful!",
+              text: "There was an issue sending verification email.  !",
+              icon: "info",
+            });
           });
-        setErrorMsg("");
-        e.target.reset();
-        Swal.fire({
-          title: "Good job!",
-          text: "Registration Successfull!",
-          icon: "success",
-        });
+
         setTimeout(() => {
           navigate("/login");
         }, 1000);

@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -29,6 +30,10 @@ const AuthProvider = ({ children }) => {
       photoURL:photoURL
     });
   }
+  // reset password
+  const resetPassword = (email) =>{
+    return sendPasswordResetEmail(auth,email);
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -51,7 +56,8 @@ const AuthProvider = ({ children }) => {
     createUserWithPassword,
     signInWithEmailPass,
     signInWithGoggle,
-    updateUserProfile
+    updateUserProfile,
+    resetPassword
   };
   return (
     <AuthContext.Provider value={authInformation}>
